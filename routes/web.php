@@ -1,7 +1,52 @@
 <?php
 
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $popularCourses = Course::with('tutor.user')
+        ->latest()
+        ->take(3)
+        ->get();
+
+    return view('welcome', compact('popularCourses'));
+
 });
+
+Route::get('/payment', function () {
+    return view('payment');
+})->name('payment');
+
+Route::get('/process-payment', function () {
+    return view('payment-process');
+})->name('process.payment');
+
+Route::get('/payment-success', function () {
+    return view('payment-success');
+})->name('payment.success');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/courses', [CourseController::class, 'index'])
+        ->name('courses.index');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+
+});
+
+require __DIR__.'/auth.php';
