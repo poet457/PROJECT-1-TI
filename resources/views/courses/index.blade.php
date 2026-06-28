@@ -23,6 +23,7 @@
                             <th class="p-3">Kategori</th>
                             <th class="p-3">Tutor</th>
                             <th class="p-3">Harga</th>
+                            <th class="p-3">Aksi</th>
                         </tr>
                     </thead>
 
@@ -46,12 +47,33 @@
                             <td class="border p-3">
                                 Rp {{ number_format($course->harga, 0, ',', '.') }}
                             </td>
+
+                            <td class="border p-3 text-center">
+                                @if (in_array($course->id, $enrolledCourseIds))
+
+                                    <a href="{{ route('enrollments.index') }}"
+                                       class="inline-block px-3 py-1.5 rounded-md bg-green-600 text-white text-sm hover:bg-green-700">
+                                        Lanjutkan Belajar
+                                    </a>
+
+                                @else
+
+                                    <form action="{{ route('courses.enroll', $course) }}" method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                                class="px-3 py-1.5 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-700">
+                                            Daftar Kursus
+                                        </button>
+                                    </form>
+
+                                @endif
+                            </td>
                         </tr>
 
                         @empty
 
                         <tr>
-                            <td colspan="4" class="text-center p-4">
+                            <td colspan="5" class="text-center p-4">
                                 Belum ada kursus
                             </td>
                         </tr>

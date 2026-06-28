@@ -39,4 +39,20 @@ class Course extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    /**
+     * Pendaftaran/progress belajar siswa untuk kursus ini.
+     */
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    /**
+     * Soal-soal kuis untuk kursus ini.
+     */
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
 }
