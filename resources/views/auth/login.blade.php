@@ -1,5 +1,17 @@
 <x-guest-layout>
-    <!-- Session Status -->
+    
+    <div class="text-center mb-6">
+
+        <h1 class="text-2xl font-bold text-gray-800">
+        Masuk ke Akun
+        </h1>
+
+        <p class="text-sm text-gray-500 mt-2">
+        Akses kursus dan lanjutkan pembelajaranmu.
+        </p>
+
+    </div>
+    
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">

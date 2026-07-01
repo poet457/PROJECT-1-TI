@@ -41,6 +41,30 @@
                                     {{ $enrollment->sudah_mengerjakan_kuis ? $enrollment->score : 'Belum dikerjakan' }}
                                 </span>
                             </p>
+
+                        <div class="mt-4">
+
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Progress</span>
+                                <span>70%</span>
+                            </div>
+
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width:70%"></div>
+                            </div>
+
+                        </div>    
+                        
+                        @if($enrollment->sudah_selesai)
+
+                        <div class="mt-3">
+                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">
+                                🏆 Sertifikat Tersedia
+                            </span>
+                        </div>
+
+                        @endif
+                        
                         </div>
 
                         <a href="{{ route('enrollments.show', $enrollment) }}"

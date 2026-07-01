@@ -24,8 +24,8 @@ return new class extends Migration
                   ->constrained()
                   ->onDelete('set null');
 
-            $table->timestamp('started_at');
-            $table->timestamp('ends_at');
+            $table->dateTime('started_at');
+            $table->dateTime('ends_at');
             $table->unsignedTinyInteger('score')->nullable();
 
             $table->timestamps();
