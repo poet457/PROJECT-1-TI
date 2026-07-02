@@ -1,92 +1,162 @@
 <x-app-layout>
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-white leading-tight">
-            Daftar Kursus EDUXCHANGE
-        </h2>
-    </x-slot>
+    <div class="bg-slate-50 min-h-screen py-8">
 
-    <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="bg-white shadow rounded-lg p-6">
+            <!-- HEADER -->
+            <div class="mb-8">
 
-                <h3 class="text-2xl font-bold mb-4">
-                    Daftar Kursus
-                </h3>
+                <h1 class="text-4xl font-bold text-slate-800">
+                    📚 Jelajahi Kursus
+                </h1>
 
-                <table class="table-auto w-full border">
+                <p class="text-slate-500 mt-2">
+                    Temukan kursus terbaik untuk meningkatkan kemampuan dan kariermu.
+                </p>
 
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="p-3">Nama Kursus</th>
-                            <th class="p-3">Kategori</th>
-                            <th class="p-3">Tutor</th>
-                            <th class="p-3">Harga</th>
-                            <th class="p-3">Aksi</th>
-                        </tr>
-                    </thead>
+            </div>
 
-                    <tbody>
+            <!-- HERO -->
+            <div class="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 rounded-3xl p-8 mb-10 text-white shadow-xl">
 
-                        @forelse($courses as $course)
+                <h2 class="text-3xl font-bold mb-2">
+                    Belajar Tanpa Batas 🚀
+                </h2>
 
-                        <tr>
-                            <td class="border p-3">
+                <p class="text-blue-100">
+                    Akses berbagai kursus pilihan dari tutor terbaik di EDUXCHANGE.
+                </p>
+
+            </div>
+
+            <!-- COURSE GRID -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                @forelse($courses as $course)
+
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-slate-100">
+
+                    <!-- COVER -->
+                    <div class="h-48 bg-gradient-to-br from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center">
+
+                        <div class="text-center px-4">
+
+                            <div class="text-5xl mb-3">
+                                🎓
+                            </div>
+
+                            <h3 class="text-white font-bold text-xl">
                                 {{ $course->nama_kursus }}
-                            </td>
+                            </h3>
 
-                            <td class="border p-3">
+                        </div>
+
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div class="p-6">
+
+                        <div class="flex justify-between items-center mb-4">
+
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full">
                                 {{ $course->kategori }}
-                            </td>
+                            </span>
 
-                            <td class="border p-3">
+                            <span class="text-yellow-500 text-sm">
+                                ⭐ 4.9
+                            </span>
+
+                        </div>
+
+                        <p class="text-sm text-slate-500 mb-4">
+
+                            Tutor:
+
+                            <span class="font-semibold text-slate-700">
                                 {{ $course->tutor->user->name ?? '-' }}
-                            </td>
+                            </span>
 
-                            <td class="border p-3">
-                                Rp {{ number_format($course->harga, 0, ',', '.') }}
-                            </td>
+                        </p>
 
-                            <td class="border p-3 text-center">
-                                @if (in_array($course->id, $enrolledCourseIds))
+                        <div class="flex items-center justify-between mb-6">
 
-                                    <a href="{{ route('enrollments.index') }}"
-                                       class="inline-block px-3 py-1.5 rounded-md bg-green-600 text-white text-sm hover:bg-green-700">
-                                        Lanjutkan Belajar
-                                    </a>
+                            <div>
 
-                                @else
+                                <p class="text-xs text-slate-400">
+                                    Harga Kursus
+                                </p>
 
-                                    <form action="{{ route('courses.enroll', $course) }}" method="POST">
-                                        @csrf
-                                        <button type="submit"
-                                                class="px-3 py-1.5 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-700">
-                                            Daftar Kursus
-                                        </button>
-                                    </form>
+                                <h4 class="text-2xl font-bold text-indigo-600">
+                                    Rp {{ number_format($course->harga,0,',','.') }}
+                                </h4>
 
-                                @endif
-                            </td>
-                        </tr>
+                            </div>
 
-                        @empty
+                            <div class="text-3xl">
+                                📖
+                            </div>
 
-                        <tr>
-                            <td colspan="5" class="text-center p-4">
-                                Belum ada kursus
-                            </td>
-                        </tr>
+                        </div>
 
-                        @endforelse
+                        @if (in_array($course->id, $enrolledCourseIds))
 
-                    </tbody>
+                            <a href="{{ route('enrollments.index') }}"
+                               class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition">
 
-                </table>
+                                Lanjutkan Belajar →
+
+                            </a>
+
+                        @else
+
+                            <form action="{{ route('courses.enroll', $course) }}" method="POST">
+                                @csrf
+
+                                <button
+                                    type="submit"
+                                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition">
+
+                                    Berlangganan Kursus
+
+                                </button>
+
+                            </form>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+                @empty
+
+                <div class="col-span-full">
+
+                    <div class="bg-white rounded-3xl p-12 text-center shadow-sm">
+
+                        <div class="text-6xl mb-4">
+                            📚
+                        </div>
+
+                        <h3 class="text-2xl font-bold text-slate-700 mb-2">
+                            Belum Ada Kursus
+                        </h3>
+
+                        <p class="text-slate-500">
+                            Saat ini belum ada kursus yang tersedia.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                @endforelse
 
             </div>
 
         </div>
+
     </div>
 
 </x-app-layout>

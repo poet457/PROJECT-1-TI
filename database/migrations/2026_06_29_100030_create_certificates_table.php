@@ -17,7 +17,7 @@ return new class extends Migration
                   ->onDelete('cascade');
 
             $table->string('kode_sertifikat')->unique();
-            $table->timestamp('diterbitkan_pada');
+            $table->dateTime('diterbitkan_pada');
 
             $table->timestamps();
         });

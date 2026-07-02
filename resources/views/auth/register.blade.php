@@ -1,4 +1,18 @@
 <x-guest-layout>
+
+    <div class="text-center mb-6">
+
+        <h1 class="text-2xl font-bold text-gray-800">
+            Buat Akun Baru
+        </h1>
+
+        <p class="text-sm text-gray-500 mt-2">
+            Daftar untuk mengakses kursus dan memulai perjalanan belajarmu.
+        </p>
+
+    </div>
+
+    
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
