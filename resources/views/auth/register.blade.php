@@ -1,66 +1,98 @@
 <x-guest-layout>
-
-    <div class="text-center mb-6">
-
-        <h1 class="text-2xl font-bold text-gray-800">
-            Buat Akun Baru
-        </h1>
-
-        <p class="text-sm text-gray-500 mt-2">
-            Daftar untuk mengakses kursus dan memulai perjalanan belajarmu.
+    <div class="mb-6">
+        <p class="text-sm font-bold uppercase tracking-wide text-indigo-700">Buat akun</p>
+        <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">Mulai Belajar di EDUXCHANGE</h1>
+        <p class="mt-3 text-sm leading-6 text-slate-600">
+            Daftar untuk memilih paket belajar 30 hari dan memantau progres kamu sendiri.
         </p>
-
     </div>
 
-    
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
 
-        <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-label for="name" :value="__('Name')" class="font-bold text-slate-700" />
+            <x-text-input id="name" class="mt-2 block w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+        <div>
+            <x-input-label for="email" :value="__('Email')" class="font-bold text-slate-700" />
+            <x-text-input id="email" class="mt-2 block w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div x-data="{ showPassword: false }">
+            <x-input-label for="password" :value="__('Password')" class="font-bold text-slate-700" />
+            <div class="relative mt-2">
+                <x-text-input
+                    id="password"
+                    class="block w-full pr-12"
+                    type="password"
+                    x-bind:type="showPassword ? 'text' : 'password'"
+                    name="password"
+                    required
+                    autocomplete="new-password" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
+                <button
+                    type="button"
+                    class="absolute inset-y-0 right-0 flex w-12 items-center justify-center rounded-r-xl text-slate-500 transition hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                    x-on:click="showPassword = !showPassword"
+                    x-bind:aria-label="showPassword ? 'Sembunyikan password' : 'Tampilkan password'">
+                    <svg x-show="!showPassword" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    <svg x-show="showPassword" x-cloak class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.88 5.45A8.3 8.3 0 0 1 12 5.25c6 0 9.75 6.75 9.75 6.75a17.1 17.1 0 0 1-3.16 3.94" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.53 6.53C3.8 8.38 2.25 12 2.25 12s3.75 6.75 9.75 6.75c1.4 0 2.68-.32 3.82-.84" />
+                    </svg>
+                </button>
+            </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        <div x-data="{ showPassword: false }">
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="font-bold text-slate-700" />
+            <div class="relative mt-2">
+                <x-text-input
+                    id="password_confirmation"
+                    class="block w-full pr-12"
+                    type="password"
+                    x-bind:type="showPassword ? 'text' : 'password'"
+                    name="password_confirmation"
+                    required
+                    autocomplete="new-password" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
+                <button
+                    type="button"
+                    class="absolute inset-y-0 right-0 flex w-12 items-center justify-center rounded-r-xl text-slate-500 transition hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                    x-on:click="showPassword = !showPassword"
+                    x-bind:aria-label="showPassword ? 'Sembunyikan konfirmasi password' : 'Tampilkan konfirmasi password'">
+                    <svg x-show="!showPassword" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    <svg x-show="showPassword" x-cloak class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.88 5.45A8.3 8.3 0 0 1 12 5.25c6 0 9.75 6.75 9.75 6.75a17.1 17.1 0 0 1-3.16 3.94" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.53 6.53C3.8 8.38 2.25 12 2.25 12s3.75 6.75 9.75 6.75c1.4 0 2.68-.32 3.82-.84" />
+                    </svg>
+                </button>
+            </div>
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <x-primary-button class="w-full">
+            Daftar
+        </x-primary-button>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
+        <p class="text-center text-sm font-medium text-slate-600">
+            Sudah punya akun?
+            <a href="{{ route('login') }}" class="font-bold text-indigo-700 hover:text-indigo-900">Masuk</a>
+        </p>
     </form>
 </x-guest-layout>

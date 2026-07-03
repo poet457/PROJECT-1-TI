@@ -8,75 +8,70 @@
     <title>EDUXCHANGE</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+<body class="font-sans antialiased text-slate-900">
+    <main class="min-h-screen bg-slate-50">
+        <div class="grid min-h-screen lg:grid-cols-[1.05fr_0.95fr]">
+            <section class="hidden bg-slate-950 px-10 py-12 text-white lg:flex lg:flex-col lg:justify-between">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-indigo-700">EX</div>
+                    <div>
+                        <div class="text-xl font-extrabold tracking-tight">EDUXCHANGE</div>
+                        <div class="text-sm text-slate-300">Bimbel online luas</div>
+                    </div>
+                </a>
 
-<body class="font-sans antialiased">
+                <div class="max-w-xl">
+                    <p class="mb-4 inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-indigo-100">
+                        30 hari akses belajar terstruktur
+                    </p>
+                    <h1 class="text-5xl font-extrabold leading-tight tracking-tight">
+                        Satu platform untuk sekolah, skill, karier, dan persiapan masa depan.
+                    </h1>
+                    <p class="mt-6 text-lg leading-8 text-slate-300">
+                        Masuk untuk mengelola paket belajar, melihat progres, mengerjakan kuis, dan melanjutkan kelas yang sedang aktif.
+                    </p>
+                </div>
 
-    <div class="min-h-screen flex">
+                <div class="grid grid-cols-3 gap-3 text-sm">
+                    <div class="rounded-2xl border border-white/10 bg-white/10 p-4">
+                        <div class="text-2xl font-extrabold">30</div>
+                        <div class="text-slate-300">Hari akses</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/10 p-4">
+                        <div class="text-2xl font-extrabold">5+</div>
+                        <div class="text-slate-300">Kategori</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/10 p-4">
+                        <div class="text-2xl font-extrabold">1</div>
+                        <div class="text-slate-300">Dashboard</div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- KIRI -->
-        <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-700 via-blue-600 to-cyan-500 items-center justify-center">
-
-            <div class="text-center px-12">
-
-                <h1 class="text-5xl font-bold text-white mb-6">
-                    EDUXCHANGE
-                </h1>
-
-                <p class="text-xl text-blue-100 leading-relaxed">
-                    Platform pembelajaran modern untuk mengembangkan keterampilan,
-                    memperluas wawasan, dan mencapai masa depan yang lebih cerah.
-                </p>
-
-                <div class="mt-10 text-white">
-
-                    <div class="text-4xl font-bold">
-                        🚀
+            <section class="flex items-center justify-center px-4 py-10 sm:px-6 lg:px-10">
+                <div class="w-full max-w-md">
+                    <div class="mb-8 text-center">
+                        <a href="/" class="inline-flex items-center justify-center gap-3">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-sm font-black text-white">EX</div>
+                            <span class="text-2xl font-extrabold tracking-tight text-slate-950">EDUXCHANGE</span>
+                        </a>
+                        <p class="mt-3 text-sm font-medium text-slate-500">Akses dashboard belajar pribadi kamu.</p>
                     </div>
 
-                    <p class="mt-3 text-lg">
-                        Belajar Tanpa Batas
+                    <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
+                        {{ $slot }}
+                    </div>
+
+                    <p class="mt-6 px-4 text-center text-xs font-medium leading-6 text-slate-500">
+                        © Copyright 2026, Eduxchange. All Rights Reserved
                     </p>
-
                 </div>
-
-            </div>
-
+            </section>
         </div>
-
-        <!-- KANAN -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center bg-gray-50">
-
-            <div class="w-full max-w-md">
-
-                <div class="text-center mb-8">
-
-                    <a href="/">
-                        <h2 class="text-4xl font-bold text-indigo-700">
-                            EDUXCHANGE
-                        </h2>
-                    </a>
-
-                    <p class="text-gray-500 mt-2">
-                        Selamat datang kembali
-                    </p>
-
-                </div>
-
-                <div class="bg-white shadow-2xl rounded-3xl p-8">
-
-                    {{ $slot }}
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
+    </main>
 </body>
 </html>

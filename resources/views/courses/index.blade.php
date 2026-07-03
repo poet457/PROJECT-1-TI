@@ -1,162 +1,81 @@
-<x-app-layout>
+﻿<x-app-layout>
+    <div class="py-8">
+        <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
+            <section class="rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-slate-200">
+                <div class="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-end">
+                    <div>
+                        <p class="text-sm font-bold uppercase tracking-wide text-indigo-700">Paket belajar</p>
+                        <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-950">Pilih paket bimbel 30 hari.</h1>
+                        <p class="mt-4 max-w-2xl text-slate-600">
+                            Temukan paket akademik, digital skill, bahasa, karier, dan persiapan ujian. Setelah berlangganan, paket langsung masuk ke Kelas Saya.
+                        </p>
+                    </div>
+                    <div class="rounded-3xl bg-indigo-50 p-5">
+                        <p class="text-sm font-bold text-indigo-700">Model akses</p>
+                        <p class="mt-2 text-3xl font-extrabold text-slate-950">30 hari</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">Akses materi, kuis, dan sertifikat sesuai progres belajar.</p>
+                    </div>
+                </div>
+            </section>
 
-    <div class="bg-slate-50 min-h-screen py-8">
-
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            <!-- HEADER -->
-            <div class="mb-8">
-
-                <h1 class="text-4xl font-bold text-slate-800">
-                    📚 Jelajahi Kursus
-                </h1>
-
-                <p class="text-slate-500 mt-2">
-                    Temukan kursus terbaik untuk meningkatkan kemampuan dan kariermu.
-                </p>
-
-            </div>
-
-            <!-- HERO -->
-            <div class="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 rounded-3xl p-8 mb-10 text-white shadow-xl">
-
-                <h2 class="text-3xl font-bold mb-2">
-                    Belajar Tanpa Batas 🚀
-                </h2>
-
-                <p class="text-blue-100">
-                    Akses berbagai kursus pilihan dari tutor terbaik di EDUXCHANGE.
-                </p>
-
-            </div>
-
-            <!-- COURSE GRID -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
+            <section class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse($courses as $course)
+                    @php($isEnrolled = in_array($course->id, $enrolledCourseIds))
 
-                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-slate-100">
-
-                    <!-- COVER -->
-                    <div class="h-48 bg-gradient-to-br from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center">
-
-                        <div class="text-center px-4">
-
-                            <div class="text-5xl mb-3">
-                                🎓
-                            </div>
-
-                            <h3 class="text-white font-bold text-xl">
-                                {{ $course->nama_kursus }}
-                            </h3>
-
+                    <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="h-12 w-12 rounded-2xl bg-indigo-50"></div>
+                            <span class="rounded-full px-3 py-1 text-xs font-bold {{ $isEnrolled ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600' }}">
+                                {{ $isEnrolled ? 'Aktif' : 'Belum Berlangganan' }}
+                            </span>
                         </div>
 
-                    </div>
-
-                    <!-- CONTENT -->
-                    <div class="p-6">
-
-                        <div class="flex justify-between items-center mb-4">
-
-                            <span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full">
-                                {{ $course->kategori }}
-                            </span>
-
-                            <span class="text-yellow-500 text-sm">
-                                ⭐ 4.9
-                            </span>
-
+                        <div class="mt-6 flex-1">
+                            <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700">{{ $course->kategori ?? 'Paket Belajar' }}</span>
+                            <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-950">{{ $course->nama_kursus }}</h2>
+                            <p class="mt-3 text-sm leading-6 text-slate-600">
+                                {{ \Illuminate\Support\Str::limit($course->deskripsi ?? 'Paket belajar terstruktur bersama tutor EDUXCHANGE.', 115) }}
+                            </p>
                         </div>
 
-                        <p class="text-sm text-slate-500 mb-4">
-
-                            Tutor:
-
-                            <span class="font-semibold text-slate-700">
-                                {{ $course->tutor->user->name ?? '-' }}
-                            </span>
-
-                        </p>
-
-                        <div class="flex items-center justify-between mb-6">
-
-                            <div>
-
-                                <p class="text-xs text-slate-400">
-                                    Harga Kursus
-                                </p>
-
-                                <h4 class="text-2xl font-bold text-indigo-600">
-                                    Rp {{ number_format($course->harga,0,',','.') }}
-                                </h4>
-
+                        <div class="mt-6 space-y-3 border-t border-slate-100 pt-5">
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-sm font-semibold text-slate-500">Tutor</span>
+                                <span class="text-right text-sm font-bold text-slate-900">{{ $course->tutor->user->name ?? 'Tutor EDUXCHANGE' }}</span>
                             </div>
-
-                            <div class="text-3xl">
-                                📖
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-sm font-semibold text-slate-500">Durasi akses</span>
+                                <span class="text-sm font-bold text-slate-900">30 hari</span>
                             </div>
-
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-sm font-semibold text-slate-500">Harga</span>
+                                <span class="text-lg font-extrabold text-slate-950">Rp {{ number_format($course->harga, 0, ',', '.') }}</span>
+                            </div>
                         </div>
 
-                        @if (in_array($course->id, $enrolledCourseIds))
-
-                            <a href="{{ route('enrollments.index') }}"
-                               class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition">
-
-                                Lanjutkan Belajar →
-
-                            </a>
-
-                        @else
-
-                            <form action="{{ route('courses.enroll', $course) }}" method="POST">
-                                @csrf
-
-                                <button
-                                    type="submit"
-                                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition">
-
-                                    Berlangganan Kursus
-
-                                </button>
-
-                            </form>
-
-                        @endif
-
-                    </div>
-
-                </div>
-
+                        <div class="mt-6">
+                            @if ($isEnrolled)
+                                <a href="{{ route('enrollments.index') }}" class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-700">
+                                    Lanjutkan Belajar
+                                </a>
+                            @else
+                                <form action="{{ route('courses.enroll', $course) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="inline-flex w-full items-center justify-center rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-indigo-700">
+                                        Berlangganan Paket
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    </article>
                 @empty
-
-                <div class="col-span-full">
-
-                    <div class="bg-white rounded-3xl p-12 text-center shadow-sm">
-
-                        <div class="text-6xl mb-4">
-                            📚
-                        </div>
-
-                        <h3 class="text-2xl font-bold text-slate-700 mb-2">
-                            Belum Ada Kursus
-                        </h3>
-
-                        <p class="text-slate-500">
-                            Saat ini belum ada kursus yang tersedia.
-                        </p>
-
+                    <div class="col-span-full rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center">
+                        <h3 class="text-2xl font-extrabold text-slate-950">Belum ada paket belajar</h3>
+                        <p class="mt-3 text-slate-600">Saat ini belum ada kursus yang tersedia.</p>
                     </div>
-
-                </div>
-
                 @endforelse
-
-            </div>
-
+            </section>
         </div>
-
     </div>
-
 </x-app-layout>
+
