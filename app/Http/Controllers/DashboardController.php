@@ -6,13 +6,10 @@ use App\Models\Course;
 use App\Models\Transaction;
 use App\Models\Tutor;
 use App\Models\User;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    /**
-     * Tampilkan dashboard dengan statistik dan kursus populer yang nyata
-     * (bukan dummy), diambil langsung dari database.
-     */
     public function index()
     {
         $stats = [
@@ -22,7 +19,6 @@ class DashboardController extends Controller
             'transaksi' => Transaction::count(),
         ];
 
-        // "Populer" = kursus dengan jumlah transaksi terbanyak.
         $popularCourses = Course::withCount('transactions')
             ->with('tutor.user')
             ->orderByDesc('transactions_count')
@@ -30,7 +26,7 @@ class DashboardController extends Controller
             ->take(4)
             ->get();
 
-        return view('dashboard', [
+        return Inertia::render('Dashboard', [
             'stats' => $stats,
             'popularCourses' => $popularCourses,
         ]);

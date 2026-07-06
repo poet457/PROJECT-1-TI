@@ -97,7 +97,7 @@
                                     <span>{{ $row[1] }}</span>
                                 </div>
                                 <div class="h-2 rounded-full bg-slate-100">
-                                    <div class="h-2 rounded-full bg-indigo-600" style="width: {{ $row[1] }}"></div>
+                                    <div class="h-2 rounded-full bg-indigo-600" style="width:{{ $row[1] }};"></div>
                                 </div>
                             </div>
                         @endforeach

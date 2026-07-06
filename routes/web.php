@@ -9,11 +9,16 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Course;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
     $popularCourses = Course::with('tutor.user')->latest()->take(3)->get();
 
     return view('welcome', compact('popularCourses'));
+});
+
+Route::get('/test-inertia', function () {
+    return Inertia::render('Test');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
