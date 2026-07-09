@@ -204,7 +204,7 @@ Transfer melalui aplikasi mobile banking Anda ke rekening:
 
 <hr>
 
-<a href="{{ route('process.payment') }}"
+<a href="{{ url('/') }}"
 class="btn btn-success w-100">
 Konfirmasi Pembayaran
 </a>

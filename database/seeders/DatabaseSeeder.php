@@ -22,10 +22,17 @@ class DatabaseSeeder extends Seeder
         $testUser = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'role' => 'student',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Admin EDUXCHANGE',
+            'email' => 'admin@example.com',
+            'role' => 'admin',
         ]);
 
         // 5 user yang menjadi tutor, masing-masing punya profil Tutor.
-        $tutors = Tutor::factory(5)->for(User::factory())->create();
+        $tutors = Tutor::factory(5)->for(User::factory()->state(['role' => 'admin']))->create();
         $tutors[0]->user->update(['name' => 'Andi Pratama']);
         $tutors[1]->user->update(['name' => 'Sari Wijaya']);
 
@@ -127,7 +134,9 @@ class DatabaseSeeder extends Seeder
 
         // ----- 15 user sebagai siswa, masing-masing "membeli" 1-2 kursus -----
 
-        $students = User::factory(15)->create();
+        $students = User::factory(15)->create([
+            'role' => 'student',
+        ]);
 
         $students->each(function (User $student) use ($semuaKursus) {
             $semuaKursus->random(fake()->numberBetween(1, 2))->each(function (Course $course) use ($student) {

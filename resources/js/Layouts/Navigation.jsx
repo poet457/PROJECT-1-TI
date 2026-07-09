@@ -6,6 +6,8 @@ import DropdownLink from '@/Components/DropdownLink';
 export default function Navigation() {
     const { auth } = usePage().props;
     const [open, setOpen] = useState(false);
+    const isAdmin = auth.user.role === 'admin';
+    const homeRoute = isAdmin ? 'admin.dashboard' : 'dashboard';
 
     const isActive = (pattern) => route().current(pattern);
 
@@ -19,7 +21,7 @@ export default function Navigation() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center gap-8">
-                        <Link href={route('dashboard')} className="flex items-center gap-3">
+                        <Link href={route(homeRoute)} className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-sm font-black text-white shadow-sm shadow-indigo-200">
                                 EX
                             </div>
@@ -31,39 +33,55 @@ export default function Navigation() {
 
                         <div className="hidden items-center gap-1 md:flex">
                             <Link
-                                href={route('dashboard')}
+                                href={route(homeRoute)}
                                 className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
-                                    isActive('dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                                    isActive(isAdmin ? 'admin.dashboard' : 'dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
                                 }`}
                             >
                                 Dashboard
                             </Link>
-                            <Link
-                                href={route('courses.index')}
-                                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
-                                    isActive('courses.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
-                                }`}
-                            >
-                                Paket Belajar
-                            </Link>
-                            <Link
-                                href={route('enrollments.index')}
-                                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
-                                    isActive('enrollments.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
-                                }`}
-                            >
-                                Kelas Saya
-                            </Link>
+                            {!isAdmin && (
+                                <>
+                                    <Link
+                                        href={route('courses.index')}
+                                        className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                                            isActive('courses.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                                        }`}
+                                    >
+                                        Paket Belajar
+                                    </Link>
+                                    <Link
+                                        href={route('enrollments.index')}
+                                        className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                                            isActive('enrollments.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                                        }`}
+                                    >
+                                        Kelas Saya
+                                    </Link>
+                                </>
+                            )}
+                            {isAdmin && (
+                                <Link
+                                    href={route('admin.students.index')}
+                                    className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                                        isActive('admin.students.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                                    }`}
+                                >
+                                    Siswa
+                                </Link>
+                            )}
                         </div>
                     </div>
 
                     <div className="hidden items-center gap-3 md:flex">
-                        <Link
-                            href={route('courses.index')}
-                            className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
-                        >
-                            Lihat Paket
-                        </Link>
+                        {!isAdmin && (
+                            <Link
+                                href={route('courses.index')}
+                                className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
+                            >
+                                Lihat Paket
+                            </Link>
+                        )}
 
                         <Dropdown
                             align="right"
@@ -74,7 +92,7 @@ export default function Navigation() {
                                     </div>
                                     <div className="min-w-0">
                                         <div className="max-w-32 truncate text-sm font-bold text-slate-900">{auth.user.name}</div>
-                                        <div className="text-xs font-medium text-slate-500">Student</div>
+                                        <div className="text-xs font-medium text-slate-500">{isAdmin ? 'Admin' : 'Student'}</div>
                                     </div>
                                 </button>
                             }
@@ -97,9 +115,16 @@ export default function Navigation() {
             {open && (
                 <div className="border-t border-slate-200 bg-white md:hidden">
                     <div className="space-y-1 px-4 py-4">
-                        <Link href={route('dashboard')} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Dashboard</Link>
-                        <Link href={route('courses.index')} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Paket Belajar</Link>
-                        <Link href={route('enrollments.index')} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Kelas Saya</Link>
+                        <Link href={route(homeRoute)} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Dashboard</Link>
+                        {!isAdmin && (
+                            <>
+                                <Link href={route('courses.index')} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Paket Belajar</Link>
+                                <Link href={route('enrollments.index')} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Kelas Saya</Link>
+                            </>
+                        )}
+                        {isAdmin && (
+                            <Link href={route('admin.students.index')} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Siswa</Link>
+                        )}
                         <Link href={route('profile.edit')} className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Profile</Link>
                         <button onClick={handleLogout} className="block w-full rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-700 hover:bg-slate-100">
                             Logout

@@ -1,7 +1,7 @@
 ﻿import { Link, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function Dashboard({ stats, popularCourses }) {
+export default function Dashboard({ stats, popularCourses, learningSummary, adminSummary }) {
     const { auth } = usePage().props;
 
     const statCards = [
@@ -9,12 +9,6 @@ export default function Dashboard({ stats, popularCourses }) {
         ['Total Tutor', stats.tutor, 'bg-sky-50 text-sky-700'],
         ['Total Siswa', stats.siswa, 'bg-emerald-50 text-emerald-700'],
         ['Total Transaksi', stats.transaksi, 'bg-amber-50 text-amber-700'],
-    ];
-
-    const adminRows = [
-        ['Student aktif', '82%'],
-        ['Paket aktif', '64%'],
-        ['Rata-rata progress', '71%'],
     ];
 
     return (
@@ -45,35 +39,37 @@ export default function Dashboard({ stats, popularCourses }) {
                             <div className="flex items-center justify-between gap-4">
                                 <div>
                                     <p className="text-sm font-bold text-slate-500">Status paket</p>
-                                    <h2 className="mt-1 text-2xl font-extrabold text-slate-950">Akses belajar 30 hari</h2>
+                                    <h2 className="mt-1 text-2xl font-extrabold text-slate-950">
+                                        {learningSummary.active_enrollments > 0 ? `${learningSummary.active_enrollments} paket aktif` : 'Belum ada paket aktif'}
+                                    </h2>
                                 </div>
-                                <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">Siap dipakai</span>
+                                <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">{learningSummary.total_enrollments} total</span>
                             </div>
 
                             <div className="mt-6 rounded-3xl bg-indigo-50 p-5">
                                 <div className="flex items-end justify-between">
                                     <div>
                                         <p className="text-sm font-bold text-indigo-700">Progress umum</p>
-                                        <p className="mt-2 text-5xl font-extrabold text-slate-950">75%</p>
+                                        <p className="mt-2 text-5xl font-extrabold text-slate-950">{learningSummary.progress_percent}%</p>
                                     </div>
-                                    <p className="pb-2 text-sm font-semibold text-slate-500">Materi, kuis, sertifikat</p>
+                                    <p className="pb-2 text-sm font-semibold text-slate-500">Waktu, kuis, sertifikat</p>
                                 </div>
                                 <div className="mt-5 h-3 rounded-full bg-white">
-                                    <div className="h-3 w-3/4 rounded-full bg-indigo-600"></div>
+                                    <div className="h-3 rounded-full bg-indigo-600" style={{ width: `${learningSummary.progress_percent}%` }}></div>
                                 </div>
                             </div>
 
                             <div className="mt-5 grid grid-cols-3 gap-3 text-center">
                                 <div className="rounded-2xl border border-slate-200 p-3">
-                                    <div className="text-lg font-extrabold text-slate-950">1</div>
+                                    <div className="text-lg font-extrabold text-slate-950">{learningSummary.materials_count}</div>
                                     <div className="text-xs font-semibold text-slate-500">Materi</div>
                                 </div>
                                 <div className="rounded-2xl border border-slate-200 p-3">
-                                    <div className="text-lg font-extrabold text-slate-950">2</div>
+                                    <div className="text-lg font-extrabold text-slate-950">{learningSummary.quiz_done_count}</div>
                                     <div className="text-xs font-semibold text-slate-500">Kuis</div>
                                 </div>
                                 <div className="rounded-2xl border border-slate-200 p-3">
-                                    <div className="text-lg font-extrabold text-slate-950">3</div>
+                                    <div className="text-lg font-extrabold text-slate-950">{learningSummary.certificates_available_count}</div>
                                     <div className="text-xs font-semibold text-slate-500">Sertifikat</div>
                                 </div>
                             </div>
@@ -106,14 +102,14 @@ export default function Dashboard({ stats, popularCourses }) {
                                 Saat role admin dibuat, area ini bisa berkembang menjadi overview progress student, paket aktif, dan paket expired.
                             </p>
                             <div className="mt-6 space-y-3">
-                                {adminRows.map(([label, value]) => (
-                                    <div key={label}>
+                                {adminSummary.map((item) => (
+                                    <div key={item.label}>
                                         <div className="mb-2 flex justify-between text-sm font-bold text-slate-700">
-                                            <span>{label}</span>
-                                            <span>{value}</span>
+                                            <span>{item.label}</span>
+                                            <span>{item.value}%</span>
                                         </div>
                                         <div className="h-2 rounded-full bg-slate-100">
-                                            <div className="h-2 rounded-full bg-indigo-600" style={{ width: value }}></div>
+                                            <div className="h-2 rounded-full bg-indigo-600" style={{ width: `${item.value}%` }}></div>
                                         </div>
                                     </div>
                                 ))}

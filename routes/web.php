@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ProfileController;
@@ -22,20 +24,31 @@ Route::get('/test-inertia', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'role:student'])
     ->name('dashboard');
 
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:admin'])
+    ->name('admin.dashboard');
+
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('/admin/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
+    Route::get('/admin/students/{student}', [AdminStudentController::class, 'show'])->name('admin.students.show');
+});
+
 Route::middleware('auth')->group(function () {
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
-    Route::post('/courses/{course}/daftar', [TransactionController::class, 'store'])->name('courses.enroll');
+    Route::middleware('role:student')->group(function () {
+        Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+        Route::post('/courses/{course}/daftar', [TransactionController::class, 'store'])->name('courses.enroll');
 
-    Route::get('/kelas-saya', [EnrollmentController::class, 'index'])->name('enrollments.index');
-    Route::get('/kelas-saya/{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show');
+        Route::get('/kelas-saya', [EnrollmentController::class, 'index'])->name('enrollments.index');
+        Route::get('/kelas-saya/{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show');
 
-    Route::get('/kelas-saya/{enrollment}/kuis', [QuizController::class, 'create'])->name('quiz.create');
-    Route::post('/kelas-saya/{enrollment}/kuis', [QuizController::class, 'store'])->name('quiz.store');
+        Route::get('/kelas-saya/{enrollment}/kuis', [QuizController::class, 'create'])->name('quiz.create');
+        Route::post('/kelas-saya/{enrollment}/kuis', [QuizController::class, 'store'])->name('quiz.store');
 
-    Route::get('/kelas-saya/{enrollment}/sertifikat', [CertificateController::class, 'download'])->name('certificate.download');
+        Route::get('/kelas-saya/{enrollment}/sertifikat', [CertificateController::class, 'download'])->name('certificate.download');
+    });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

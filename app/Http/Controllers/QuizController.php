@@ -5,17 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class QuizController extends Controller
 {
     /**
      * Tampilkan form kuis untuk kursus yang sedang diikuti.
      */
-    public function create(Enrollment $enrollment)
+    public function create(Enrollment $enrollment): Response
     {
         abort_if($enrollment->user_id !== Auth::id(), 403);
 
-        $enrollment->load('course.questions');
+        if ($enrollment->sudah_selesai) {
+            return redirect()
+                ->route('enrollments.show', $enrollment)
+                ->with('error', 'Masa akses paket ini sudah habis. Daftar ulang paket untuk mengerjakan kuis lagi.');
+        }
+
+        $enrollment->load('course.questions', 'quizAnswers');
 
         if ($enrollment->course->questions->isEmpty()) {
             return redirect()
@@ -27,9 +35,26 @@ class QuizController extends Controller
         $jawabanSebelumnya = $enrollment->quizAnswers()
             ->pluck('jawaban_dipilih', 'question_id');
 
-        return view('quiz.create', [
-            'enrollment' => $enrollment,
-            'questions' => $enrollment->course->questions,
+        return Inertia::render('Quiz/Create', [
+            'enrollment' => [
+                'id' => $enrollment->id,
+                'course' => [
+                    'nama_kursus' => $enrollment->course->nama_kursus,
+                    'kategori' => $enrollment->course->kategori,
+                ],
+            ],
+            'questions' => $enrollment->course->questions
+                ->values()
+                ->map(fn ($question) => [
+                    'id' => $question->id,
+                    'pertanyaan' => $question->pertanyaan,
+                    'options' => [
+                        'a' => $question->pilihan_a,
+                        'b' => $question->pilihan_b,
+                        'c' => $question->pilihan_c,
+                        'd' => $question->pilihan_d,
+                    ],
+                ]),
             'jawabanSebelumnya' => $jawabanSebelumnya,
         ]);
     }
@@ -40,6 +65,12 @@ class QuizController extends Controller
     public function store(Request $request, Enrollment $enrollment)
     {
         abort_if($enrollment->user_id !== Auth::id(), 403);
+
+        if ($enrollment->sudah_selesai) {
+            return redirect()
+                ->route('enrollments.show', $enrollment)
+                ->with('error', 'Masa akses paket ini sudah habis. Daftar ulang paket untuk mengirim jawaban kuis.');
+        }
 
         $enrollment->load('course.questions');
         $questions = $enrollment->course->questions;
