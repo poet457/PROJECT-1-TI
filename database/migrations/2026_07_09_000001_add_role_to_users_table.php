@@ -8,10 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
+    if (!Schema::hasColumn('users', 'role')) {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('student')->after('password')->index();
+            $table->string('role')->default('student');
         });
     }
+}
 
     public function down(): void
     {
