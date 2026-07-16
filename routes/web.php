@@ -6,9 +6,9 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
-use App\Http\Controllers\TransactionController;
 use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,7 +39,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::middleware('role:student')->group(function () {
         Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
-        Route::post('/courses/{course}/daftar', [TransactionController::class, 'store'])->name('courses.enroll');
+        Route::get('/courses/{course}/checkout', [PaymentController::class, 'show'])->name('payment.show');
+        Route::post('/courses/{course}/checkout', [PaymentController::class, 'process'])->name('payment.process');
+        Route::get('/pembayaran/{transaction}/selesai', [PaymentController::class, 'success'])->name('payment.success');
 
         Route::get('/kelas-saya', [EnrollmentController::class, 'index'])->name('enrollments.index');
         Route::get('/kelas-saya/{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show');

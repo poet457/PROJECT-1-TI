@@ -22,11 +22,6 @@ class DashboardController extends Controller
             ->with(['course.materials'])
             ->get();
 
-        $totalEnrollments = Enrollment::count();
-        $activeEnrollments = Enrollment::where('ends_at', '>', now())->count();
-        $usersCount = User::count();
-        $activeStudents = User::whereHas('enrollments', fn ($query) => $query->where('ends_at', '>', now()))->count();
-        $averageScore = (int) round((float) Enrollment::whereNotNull('score')->avg('score'));
         $quizDoneCount = $userEnrollments->whereNotNull('score')->count();
         $certificateAvailableCount = $userEnrollments->filter->bisa_unduh_sertifikat->count();
         $materialCount = $userEnrollments->sum(fn (Enrollment $enrollment) => $enrollment->course->materials->count());
@@ -69,20 +64,6 @@ class DashboardController extends Controller
                 'materials_count' => $materialCount,
                 'quiz_done_count' => $quizDoneCount,
                 'certificates_available_count' => $certificateAvailableCount,
-            ],
-            'adminSummary' => [
-                [
-                    'label' => 'Student aktif',
-                    'value' => $usersCount > 0 ? (int) round(($activeStudents / $usersCount) * 100) : 0,
-                ],
-                [
-                    'label' => 'Paket aktif',
-                    'value' => $totalEnrollments > 0 ? (int) round(($activeEnrollments / $totalEnrollments) * 100) : 0,
-                ],
-                [
-                    'label' => 'Rata-rata nilai kuis',
-                    'value' => $averageScore,
-                ],
             ],
         ]);
     }

@@ -1,4 +1,4 @@
-import { Link, router } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 const formatRupiah = (value) => `Rp ${Number(value || 0).toLocaleString('id-ID')}`;
@@ -11,12 +11,6 @@ const limitText = (text, maxLength = 115) => {
 };
 
 export default function CoursesIndex({ courses = [], enrolledCourseIds = [] }) {
-    const handleEnroll = (courseId) => {
-        router.post(route('courses.enroll', courseId), {}, {
-            preserveScroll: true,
-        });
-    };
-
     return (
         <AuthenticatedLayout>
             <div className="py-8">
@@ -88,13 +82,12 @@ export default function CoursesIndex({ courses = [], enrolledCourseIds = [] }) {
                                                     Lanjutkan Belajar
                                                 </Link>
                                             ) : (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleEnroll(course.id)}
+                                                <Link
+                                                    href={route('payment.show', course.id)}
                                                     className="inline-flex w-full items-center justify-center rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-indigo-700"
                                                 >
                                                     Berlangganan Paket
-                                                </button>
+                                                </Link>
                                             )}
                                         </div>
                                     </article>
