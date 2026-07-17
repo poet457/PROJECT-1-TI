@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Transaction extends Model
 {
@@ -14,6 +15,7 @@ class Transaction extends Model
         'user_id',
         'course_id',
         'status',
+        'metode_pembayaran',
     ];
 
     /**
@@ -30,5 +32,13 @@ class Transaction extends Model
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+
+    /**
+     * Enrollment yang dihasilkan dari transaksi ini (jika sukses).
+     */
+    public function enrollment(): HasOne
+    {
+        return $this->hasOne(Enrollment::class);
     }
 }

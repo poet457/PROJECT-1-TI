@@ -1,7 +1,7 @@
 ﻿import { Link, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function Dashboard({ stats, popularCourses, learningSummary, adminSummary }) {
+export default function Dashboard({ stats, popularCourses, learningSummary }) {
     const { auth } = usePage().props;
 
     const statCards = [
@@ -89,33 +89,7 @@ export default function Dashboard({ stats, popularCourses, learningSummary, admi
                         ))}
                     </section>
 
-                    <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-                        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-bold uppercase tracking-wide text-indigo-700">Admin concept</p>
-                                    <h2 className="mt-2 text-2xl font-extrabold text-slate-950">Monitoring student</h2>
-                                </div>
-                                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">UI siap</span>
-                            </div>
-                            <p className="mt-4 text-sm leading-6 text-slate-600">
-                                Saat role admin dibuat, area ini bisa berkembang menjadi overview progress student, paket aktif, dan paket expired.
-                            </p>
-                            <div className="mt-6 space-y-3">
-                                {adminSummary.map((item) => (
-                                    <div key={item.label}>
-                                        <div className="mb-2 flex justify-between text-sm font-bold text-slate-700">
-                                            <span>{item.label}</span>
-                                            <span>{item.value}%</span>
-                                        </div>
-                                        <div className="h-2 rounded-full bg-slate-100">
-                                            <div className="h-2 rounded-full bg-indigo-600" style={{ width: `${item.value}%` }}></div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
+                    <section className="grid gap-6">
                         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                             <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                                 <div>

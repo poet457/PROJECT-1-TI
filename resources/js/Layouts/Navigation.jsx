@@ -22,9 +22,11 @@ export default function Navigation() {
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center gap-8">
                         <Link href={route(homeRoute)} className="flex items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-sm font-black text-white shadow-sm shadow-indigo-200">
-                                EX
-                            </div>
+                            <img
+                                src="/images/eduxchange-logo.png"
+                                alt="Logo EDUXCHANGE"
+                                className="h-10 w-10 rounded-2xl object-cover shadow-sm shadow-indigo-200"
+                            />
                             <div className="leading-tight">
                                 <div className="text-lg font-extrabold tracking-tight text-slate-950">EDUXCHANGE</div>
                                 <div className="text-xs font-medium text-slate-500">Bimbel online luas</div>

@@ -183,50 +183,5 @@ class DatabaseSeeder extends Seeder
                 }
             });
         });
-
-        // ----- Data khusus akun test@example.com biar bisa langsung dicoba -----
-
-        // 1. Kelas yang sudah SELESAI (lewat 30 hari) dan kuisnya sudah
-        //    dikerjakan dengan benar -> sertifikat langsung bisa diunduh.
-        $mulaiSelesai = now()->subDays(35);
-
-        $transaksiSelesai = Transaction::create([
-            'user_id' => $testUser->id,
-            'course_id' => $kursusLaravel->id,
-            'status' => 'success',
-        ]);
-
-        $enrollmentSelesai = Enrollment::create([
-            'user_id' => $testUser->id,
-            'course_id' => $kursusLaravel->id,
-            'transaction_id' => $transaksiSelesai->id,
-            'started_at' => $mulaiSelesai,
-            'ends_at' => $mulaiSelesai->copy()->addDays(30),
-        ]);
-
-        foreach ($kursusLaravel->questions as $question) {
-            $enrollmentSelesai->quizAnswers()->create([
-                'question_id' => $question->id,
-                'jawaban_dipilih' => $question->jawaban_benar,
-                'is_benar' => true,
-            ]);
-        }
-
-        $enrollmentSelesai->hitungNilai();
-
-        // 2. Kelas yang masih AKTIF berjalan, kuis belum dikerjakan.
-        $transaksiAktif = Transaction::create([
-            'user_id' => $testUser->id,
-            'course_id' => $kursusUiUx->id,
-            'status' => 'success',
-        ]);
-
-        Enrollment::create([
-            'user_id' => $testUser->id,
-            'course_id' => $kursusUiUx->id,
-            'transaction_id' => $transaksiAktif->id,
-            'started_at' => now(),
-            'ends_at' => now()->addDays(30),
-        ]);
     }
 }

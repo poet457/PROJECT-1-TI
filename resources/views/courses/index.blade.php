@@ -24,7 +24,7 @@
 
                     <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200">
                         <div class="flex items-start justify-between gap-4">
-                            <div class="h-12 w-12 rounded-2xl bg-indigo-50"></div>
+                            <x-category-icon :kategori="$course->kategori" class="h-12 w-12" />
                             <span class="rounded-full px-3 py-1 text-xs font-bold {{ $isEnrolled ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600' }}">
                                 {{ $isEnrolled ? 'Aktif' : 'Belum Berlangganan' }}
                             </span>

@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDUXCHANGE</title>
 
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
 
@@ -14,9 +19,7 @@
     <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="/" class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-sm font-black text-white shadow-sm shadow-indigo-200">
-                    EX
-                </div>
+                <img src="/images/eduxchange-logo.png" alt="Logo EDUXCHANGE" class="h-10 w-10 rounded-2xl object-cover shadow-sm shadow-indigo-200">
                 <div>
                     <div class="text-lg font-extrabold tracking-tight text-slate-950">EDUXCHANGE</div>
                     <div class="text-xs font-medium text-slate-500">Bimbel online luas</div>
@@ -145,7 +148,7 @@
                         ['Ujian', 'Latihan terarah dan evaluasi progres.'],
                     ] as $category)
                         <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <div class="mb-4 h-10 w-10 rounded-2xl bg-indigo-50"></div>
+                            <x-category-icon :kategori="$category[0]" class="mb-4 h-10 w-10" />
                             <h3 class="font-extrabold text-slate-950">{{ $category[0] }}</h3>
                             <p class="mt-2 text-sm leading-6 text-slate-600">{{ $category[1] }}</p>
                         </div>
@@ -171,11 +174,12 @@
                     @forelse ($popularCourses as $course)
                         <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200">
                             <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700">{{ $course->kategori ?? 'Paket Belajar' }}</span>
-                                    <h3 class="mt-4 text-xl font-extrabold text-slate-950">{{ $course->nama_kursus }}</h3>
-                                </div>
+                                <x-category-icon :kategori="$course->kategori" class="h-11 w-11" />
                                 <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">30 hari</span>
+                            </div>
+                            <div class="mt-4">
+                                <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700">{{ $course->kategori ?? 'Paket Belajar' }}</span>
+                                <h3 class="mt-4 text-xl font-extrabold text-slate-950">{{ $course->nama_kursus }}</h3>
                             </div>
                             <p class="mt-4 text-sm leading-6 text-slate-600">
                                 {{ \Illuminate\Support\Str::limit($course->deskripsi ?? 'Pelajari skill baru bersama tutor EDUXCHANGE dengan materi terstruktur.', 120) }}
