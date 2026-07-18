@@ -1,9 +1,25 @@
 <x-guest-layout>
+    @php
+        $as = $as ?? 'student';
+        $isAdmin = $as === 'admin';
+    @endphp
+
+    <a href="{{ route('login.select') }}" class="mb-4 inline-flex items-center gap-1 text-sm font-bold text-slate-500 hover:text-indigo-700">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.5 8.25 12l6.75-7.5" />
+        </svg>
+        Ganti peran
+    </a>
+
     <div class="mb-6">
-        <p class="text-sm font-bold uppercase tracking-wide text-indigo-700">Login student</p>
-        <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">Masuk ke Dashboard Belajar</h1>
+        <p class="text-sm font-bold uppercase tracking-wide text-indigo-700">{{ $isAdmin ? 'Login admin' : 'Login student' }}</p>
+        <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
+            {{ $isAdmin ? 'Masuk ke Dashboard Admin' : 'Masuk ke Dashboard Belajar' }}
+        </h1>
         <p class="mt-3 text-sm leading-6 text-slate-600">
-            Lanjutkan paket aktif, lihat progres, dan akses materi yang sudah kamu ikuti.
+            {{ $isAdmin
+                ? 'Kelola data siswa, kursus, dan transaksi EDUXCHANGE.'
+                : 'Lanjutkan paket aktif, lihat progres, dan akses materi yang sudah kamu ikuti.' }}
         </p>
     </div>
 
@@ -11,6 +27,7 @@
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf
+        <input type="hidden" name="as" value="{{ $as }}" />
 
         <div>
             <x-input-label for="email" :value="__('Email')" class="font-bold text-slate-700" />
@@ -67,9 +84,11 @@
             Masuk
         </x-primary-button>
 
-        <p class="text-center text-sm font-medium text-slate-600">
-            Belum punya akun?
-            <a href="{{ route('register') }}" class="font-bold text-indigo-700 hover:text-indigo-900">Daftar sekarang</a>
-        </p>
+        @unless ($isAdmin)
+            <p class="text-center text-sm font-medium text-slate-600">
+                Belum punya akun?
+                <a href="{{ route('register') }}" class="font-bold text-indigo-700 hover:text-indigo-900">Daftar sekarang</a>
+            </p>
+        @endunless
     </form>
 </x-guest-layout>

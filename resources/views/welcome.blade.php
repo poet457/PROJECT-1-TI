@@ -33,7 +33,7 @@
             </nav>
 
             <div class="flex items-center gap-2">
-                <a href="{{ route('login') }}" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-100">
+                <a href="{{ route('login.select') }}" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-100">
                     Login
                 </a>
                 <a href="{{ route('register') }}" class="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-bold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-700">
@@ -165,7 +165,7 @@
                         <h2 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-950">Pilih paket belajar 30 hari.</h2>
                         <p class="mt-4 max-w-2xl text-slate-600">Paket diambil dari kursus terbaru yang tersedia di EDUXCHANGE.</p>
                     </div>
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-2xl border border-slate-200 px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-100">
+                    <a href="{{ route('login.select') }}" class="inline-flex items-center justify-center rounded-2xl border border-slate-200 px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-100">
                         Login untuk berlangganan
                     </a>
                 </div>
@@ -193,7 +193,7 @@
                                     <p class="text-xs font-bold uppercase tracking-wide text-slate-400">Harga paket</p>
                                     <p class="mt-1 text-2xl font-extrabold text-slate-950">Rp {{ number_format($course->harga, 0, ',', '.') }}</p>
                                 </div>
-                                <a href="{{ route('login') }}" class="rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-indigo-700">
+                                <a href="{{ route('login.select') }}" class="rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-indigo-700">
                                     Pilih
                                 </a>
                             </div>

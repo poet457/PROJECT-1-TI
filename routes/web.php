@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\AdminCourseController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\DashboardController;
@@ -34,6 +35,13 @@ Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
     Route::get('/admin/students/{student}', [AdminStudentController::class, 'show'])->name('admin.students.show');
+
+    Route::get('/admin/courses', [AdminCourseController::class, 'index'])->name('admin.courses.index');
+    Route::get('/admin/courses/create', [AdminCourseController::class, 'create'])->name('admin.courses.create');
+    Route::post('/admin/courses', [AdminCourseController::class, 'store'])->name('admin.courses.store');
+    Route::get('/admin/courses/{course}/edit', [AdminCourseController::class, 'edit'])->name('admin.courses.edit');
+    Route::put('/admin/courses/{course}', [AdminCourseController::class, 'update'])->name('admin.courses.update');
+    Route::delete('/admin/courses/{course}', [AdminCourseController::class, 'destroy'])->name('admin.courses.destroy');
 });
 
 Route::middleware('auth')->group(function () {

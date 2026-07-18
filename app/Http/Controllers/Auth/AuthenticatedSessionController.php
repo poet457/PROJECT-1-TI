@@ -8,15 +8,19 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.login');
+        return view('auth.login', [
+            'as' => $request->query('as') === 'admin' ? 'admin' : 'student',
+        ]);
     }
 
     /**
@@ -36,7 +40,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request): Response
     {
         Auth::guard('web')->logout();
 
@@ -44,6 +48,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Halaman "/" adalah view Blade biasa (bukan Inertia). Pakai
+        // Inertia::location() supaya browser benar-benar pindah halaman
+        // penuh, bukan me-render HTML landing page di dalam SPA.
+        return Inertia::location('/');
     }
 }

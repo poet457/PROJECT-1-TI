@@ -44,7 +44,7 @@ export default function AdminStudentShow({ student, summary, enrollments = [] })
                                             <div>
                                                 <div className="flex flex-wrap items-center gap-2">
                                                     <span className={`rounded-full px-3 py-1 text-xs font-bold ${enrollment.status === 'active' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
-                                                        {enrollment.status === 'active' ? 'Aktif' : 'Expired'}
+                                                        {enrollment.status === 'active' ? 'Aktif' : 'Selesai'}
                                                     </span>
                                                     <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700">
                                                         {enrollment.course.kategori || 'Paket Belajar'}

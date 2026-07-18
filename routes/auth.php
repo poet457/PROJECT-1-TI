@@ -12,6 +12,10 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+    Route::get('masuk', function () {
+        return view('auth.pilih-peran');
+    })->name('login.select');
+
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
